@@ -1,9 +1,9 @@
-# Backlog-Clipper
+# Copy link as markdown
 
 ## How to use.
 
 1. Clone repository
-`$ git clone https://github.com/y4ashida/Backlog-Clipper.git`
+`$ git clone https://github.com/y4ashida/Copy-link-as-markdown.git`
 
 2. Set Chrome extensions
   1. Open `settings > extensions`
