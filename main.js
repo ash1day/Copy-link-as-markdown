@@ -1,45 +1,30 @@
-var key = $('div#issuecard div.key strong').text()
+main()
 
-var title = $('div#issuecard h4.summary').text()
-var spChars = { '[': '(', ']': ')' };
-var titleEscaped = title.replace(/[\[\]]/g, function(c) { return spChars[c] })
+function main() {
+  var title = getTitle()
+  var url = window.location.href
+  var text = '[' + title + '](' + url + ')'
 
-var url = window.location.href
-var hashIndex = url.indexOf('#')
-if (hashIndex != -1) url = url.substr(0, hashIndex)
-
-var checked = ' ';
-// StatusがResolved or Closed ならxにする
-if ($('div.right_content div.issue-status-4-color').length
-    || $('div.right_content div.issue-status-3-color').length) {
-  checked = 'x';
+  saveToClipboard(text)
+  notify('Copied! ' + text)
 }
 
-var tag = ''
+function getTitle(){
+  var title = $('title').text()
+  var spChars = { '[': '(', ']': ')' }
+  var escapedTitle = title.replace(/[\[\]]/g, function(c) { return spChars[c] })
 
-if (bc_type == 'todo') tag += '[' + checked + ']'
-if (bc_type == 'list') tag += '- ' + '[' + checked + ']'
+  var pipeIndex = escapedTitle.indexOf('|')
+  if (pipeIndex != -1) escapedTitle = escapedTitle.substr(0, pipeIndex)
 
-var text = tag + '[' + key + ' ' + titleEscaped + '](' + url + ')'
+  var escapedTitle = escapedTitle.trim()
 
-saveToClipboard(text)
-
-$.notifyBar({
-  html: 'クリップボードにコピーしました ' + text,
-  cssClass: 'flash_message'
-})
-
-$('.flash_message').css({
-  'color': 'white',
-  'background': '#e74c3c',
-  'text-align': 'center',
-  'line-height': '3em',
-  'font-weight': 'bold'
-})
+  return escapedTitle
+}
 
 function saveToClipboard(text) {
   var textArea = document.createElement('textarea')
-  textArea.style.cssText = 'position:absolute;left:-100%'
+  textArea.style.cssText = 'position:absoluteleft:-100%'
 
   document.body.appendChild(textArea)
 
@@ -48,4 +33,29 @@ function saveToClipboard(text) {
   document.execCommand('copy')
 
   document.body.removeChild(textArea)
+}
+
+function notify(text) {
+  var container = $('<div #msg_container>' + text + '</div>')
+
+  var sclTop  = document.body.scrollTop  || document.documentElement.scrollTop
+  var top = Math.floor(($(window).height() - container.height()) / 2) + parseInt(sclTop)
+
+  container.css({
+    'color': 'white',
+    'background': '#018865',
+    'text-align': 'center',
+    'line-height': '3em',
+    'font-weight': 'bold',
+    'padding': '0.5em',
+    'position': 'absolute',
+    'top': top,
+    'width': '100%',
+    'z-index': '2147483647'
+  }).hide()
+
+  $('body').append(container)
+
+  container.fadeIn(300)
+  container.fadeOut(3000)
 }
