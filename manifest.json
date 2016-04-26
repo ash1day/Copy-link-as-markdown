@@ -1,11 +1,11 @@
 {
-  "name": "Backlog Clipper",
-  "version": "0.3",
+  "name": "Copy link as markdown",
+  "version": "0.4",
   "manifest_version": 2,
-  "description": "開いてるBacklogの課題ページからmd形式のリンクタグを生成する",
+  "description": "Copy link as markdown",
 
   "permissions": [
-    "tabs", "https://*.backlog.jp/"
+    "tabs", "https://*/"
   ],
 
   "browser_action": {
@@ -14,7 +14,5 @@
 
   "background": {
     "scripts": ["background.js"]
-  },
-
-  "options_page": "options.html"
+  }
 }
