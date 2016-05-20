@@ -5,7 +5,7 @@
   "description": "Copy link as markdown",
 
   "permissions": [
-    "tabs", "https://*/"
+    "tabs", "https://*/", "http://*/"
   ],
 
   "browser_action": {
